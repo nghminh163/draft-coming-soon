@@ -1,0 +1,7 @@
+.fp-tableCell {
+  vertical-align: unset !important;
+}
+
+.inputText::placeholder {
+  color: #adb7b3;
+}
