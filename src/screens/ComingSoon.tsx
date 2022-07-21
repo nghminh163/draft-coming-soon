@@ -1,7 +1,7 @@
 import LayoutWithHeaderBar from "@/layouts/LayoutWithHeaderBar";
 import { Box, Grid, ButtonBase } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import React from "react";
+import React, { useCallback, useState } from "react";
 import ReactFullpage from "@fullpage/react-fullpage";
 import bg2 from "@/assets/svg/bg2.svg";
 import bg3 from "@/assets/svg/bg3.svg";
@@ -15,6 +15,7 @@ import femaleModal from "@/assets/svg/female.svg";
 
 import fbIcon from "@/assets/images/fb_icon.png";
 import igIcon from "@/assets/images/ig_icon.png";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -78,6 +79,39 @@ const useStyles = makeStyles((theme) => ({
 
 const ComingSoon = () => {
   const classes = useStyles();
+  const [fname, setfName] = useState("");
+  const [lname, setLName] = useState("");
+  const [email, setEmail] = useState("");
+  const onClick = () => {
+    var data = `entry.1755317532=${fname}&entry.303111790=${lname}&entry.1876639563=${email}`;
+    axios({
+      url: `https://cors-anywhere.herokuapp.com/https://docs.google.com/forms/d/e/1FAIpQLSf340E14aulLNCJKp2nBOcEGfSumUrr2W83oREYU29nUSZ0eg/formResponse`,
+      method: "post",
+      data: data,
+      responseType: "json",
+    })
+      .then((response) => {
+        console.log("response", response);
+      })
+      .catch((err) => {
+        console.log("err", err);
+      });
+
+    // axios
+    //   .post(
+    //     "https://cors-anywhere.herokuapp.com/https://docs.google.com/forms/d/e/1FAIpQLSf340E14aulLNCJKp2nBOcEGfSumUrr2W83oREYU29nUSZ0eg/formResponse",
+    //     data,
+    //     {
+    //       headers: {
+    //         "Content-Type": "application/x-www-form-urlencoded",
+    //       },
+    //     }
+    //   )
+    //   .then((a) => {
+    //     alert("Thank you for your interest!");
+    //   });
+  };
+
   // return null
   return (
     <ReactFullpage
@@ -236,6 +270,8 @@ const ComingSoon = () => {
                       marginBottom: 30,
                     }}
                     placeholder="First Name"
+                    value={fname}
+                    onChange={(e) => setfName(e.target.value)}
                   />
                   <input
                     className="inputText"
@@ -248,6 +284,8 @@ const ComingSoon = () => {
                       marginBottom: 30,
                     }}
                     placeholder="Last Name"
+                    value={lname}
+                    onChange={(e) => setLName(e.target.value)}
                   />
                   <input
                     className="inputText"
@@ -260,6 +298,8 @@ const ComingSoon = () => {
                       marginBottom: 30,
                     }}
                     placeholder="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                   <br />
                   <ButtonBase
@@ -271,6 +311,7 @@ const ComingSoon = () => {
                       paddingRight: 25,
                       backgroundColor: "#5AB282",
                     }}
+                    onClick={onClick}
                   >
                     <span
                       style={{
